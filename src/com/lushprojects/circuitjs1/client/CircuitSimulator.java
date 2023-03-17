@@ -616,14 +616,14 @@ public class CircuitSimulator implements
 	setCanvasSize();
 	layoutPanel.add(cv);
 	verticalPanel.add(buttonPanel);
-	buttonPanel.add(resetButton = new Button(LS("Reset")));
+	buttonPanel.add(resetButton = new Button(LS("Reset"))); //Reset
 	resetButton.addClickHandler(new ClickHandler() {
 	    public void onClick(ClickEvent event) {
 		resetAction();
 	    }
 	});
 	resetButton.setStylePrimaryName("topButton");
-	buttonPanel.add(runStopButton = new Button(LSHTML("<Strong>RUN</Strong>&nbsp;/&nbsp;Stop")));
+	buttonPanel.add(runStopButton = new Button(LSHTML("Pause")));
 	runStopButton.addClickHandler(new ClickHandler() {
 	    public void onClick(ClickEvent event) {
 		setSimRunning(!simIsRunning());
@@ -1226,18 +1226,18 @@ public class CircuitSimulator implements
     
     public void setSimRunning(boolean s) {
     	if (s) {
-    	    	if (stopMessage != null)
-    	    	    return;
+    	    if (stopMessage != null)
+    	        return;
     		simRunning = true;
-    		runStopButton.setHTML(LSHTML("<strong>RUN</strong>&nbsp;/&nbsp;Stop"));
+    		runStopButton.setHTML(LSHTML("Pause"));
     		runStopButton.setStylePrimaryName("topButton");
     		timer.scheduleRepeating(FASTTIMER);
     	} else {
     		simRunning = false;
-    		runStopButton.setHTML(LSHTML("Run&nbsp;/&nbsp;<strong>STOP</strong>"));
-    		runStopButton.setStylePrimaryName("topButton-red");
+    		runStopButton.setHTML(LSHTML("Start"));
+    		runStopButton.setStylePrimaryName("topButton");
     		timer.cancel();
-		repaint();
+			repaint();
     	}
     }
     
