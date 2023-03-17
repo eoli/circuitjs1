@@ -90,6 +90,9 @@ package com.lushprojects.circuitjs1.client;
 		g.setColor(whiteColor);
 	    drawThickLine(g, lead1, swpoles[position]);
 	    
+	    //write name
+	    drawValues(g, name, 3);
+	    
 	    updateDotCount();
 	    drawDots(g, point1, lead1, curcount);
 	    if (position != 2)
