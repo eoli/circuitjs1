@@ -26,10 +26,10 @@ public class ImportFromDropboxDialog extends DialogBox {
 	Label la;
 	HorizontalPanel hp;
 	ImportFromDropbox importFromDropbox;
-	static CirSim sim;
+	static CircuitSimulator sim;
 	
 	
-	static public void setSim(CirSim csim) {
+	static public void setSim(CircuitSimulator csim) {
 		sim=csim;
 	}
 	
@@ -70,7 +70,7 @@ public class ImportFromDropboxDialog extends DialogBox {
 			
 	}
 
-	public ImportFromDropboxDialog(CirSim csim) {
+	public ImportFromDropboxDialog(CircuitSimulator csim) {
 		super();
 		setSim(csim);
 

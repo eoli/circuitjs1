@@ -39,16 +39,16 @@ public class ExportAsImageDialog extends DialogBox {
 		Anchor a;
 		vp=new VerticalPanel();
 		setWidget(vp);
-		setText(CirSim.LS("Export as Image"));
-		vp.add(new Label(CirSim.LS("Click on the link below to save your image")));
+		setText(CircuitSimulator.LS("Export as Image"));
+		vp.add(new Label(CircuitSimulator.LS("Click on the link below to save your image")));
 		Date date = new Date();
 		DateTimeFormat dtf = DateTimeFormat.getFormat("yyyyMMdd-HHmm");
-		String dataURL = CirSim.theSim.getCircuitAsCanvas(false).toDataUrl();
+		String dataURL = CircuitSimulator.theSim.getCircuitAsCanvas(false).toDataUrl();
 		a=new Anchor("image.png", dataURL);
 		String fname = "circuit-"+ dtf.format(date) + ".png";
 		a.getElement().setAttribute("Download", fname);
 		vp.add(a);
-		vp.add(okButton = new Button(CirSim.LS("OK")));
+		vp.add(okButton = new Button(CircuitSimulator.LS("OK")));
 		okButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				closeDialog();

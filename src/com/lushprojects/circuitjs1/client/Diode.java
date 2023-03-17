@@ -22,9 +22,9 @@ package com.lushprojects.circuitjs1.client;
 // diode that can be embedded in other elements.  series resistance is handled in DiodeElm, not here.
 class Diode {
     int nodes[];
-    CirSim sim;
+    CircuitSimulator sim;
     
-    Diode(CirSim s) {
+    Diode(CircuitSimulator s) {
 	sim = s;
 	nodes = new int[2];
     }

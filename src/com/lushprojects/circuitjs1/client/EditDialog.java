@@ -45,7 +45,7 @@ interface Editable {
 // class EditDialog extends Dialog implements AdjustmentListener, ActionListener, ItemListener {
 class EditDialog extends DialogBox  {
 	Editable elm;
-	CirSim cframe;
+	CircuitSimulator cframe;
 	Button applyButton, okButton, cancelButton;
 	EditInfo einfos[];
 	int einfocount;
@@ -55,10 +55,10 @@ class EditDialog extends DialogBox  {
 	boolean closeOnEnter = true;
 	static NumberFormat noCommaFormat = NumberFormat.getFormat("####.##########");
 
-	EditDialog(Editable ce, CirSim f) {
+	EditDialog(Editable ce, CircuitSimulator f) {
 //		super(f, "Edit Component", false);
 		super(); // Do we need this?
-		setText(CirSim.LS("Edit Component"));
+		setText(CircuitSimulator.LS("Edit Component"));
 		cframe = f;
 		elm = ce;
 //		setLayout(new EditDialogLayout());
@@ -73,14 +73,14 @@ class EditDialog extends DialogBox  {
 		hp.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 		hp.setStyleName("topSpace");
 		vp.add(hp);
-		applyButton = new Button(CirSim.LS("Apply"));
+		applyButton = new Button(CircuitSimulator.LS("Apply"));
 		hp.add(applyButton);
 		applyButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				apply();
 			}
 		});
-		hp.add(okButton = new Button(CirSim.LS("OK")));
+		hp.add(okButton = new Button(CircuitSimulator.LS("OK")));
 		okButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				apply();
@@ -88,7 +88,7 @@ class EditDialog extends DialogBox  {
 			}
 		});
 		hp.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-		hp.add(cancelButton = new Button(CirSim.LS("Cancel")));
+		hp.add(cancelButton = new Button(CircuitSimulator.LS("Cancel")));
 		cancelButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				closeDialog();
@@ -108,7 +108,7 @@ class EditDialog extends DialogBox  {
 				break;
 			EditInfo ei = einfos[i];
 			idx = vp.getWidgetIndex(hp);
-			String name = CirSim.LS(ei.name);
+			String name = CircuitSimulator.LS(ei.name);
 			if (ei.name.startsWith("<"))
 			    vp.insert(l = new HTML(name),idx);
 			else

@@ -40,7 +40,7 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 // class EditDialog extends Dialog implements AdjustmentListener, ActionListener, ItemListener {
 class SliderDialog extends DialogBox  {
 	CircuitElm elm;
-	CirSim sim;
+	CircuitSimulator sim;
 	Button applyButton, okButton, cancelButton;
 	EditInfo einfos[];
 	int einfocount;
@@ -49,9 +49,9 @@ class SliderDialog extends DialogBox  {
 	HorizontalPanel hp;
 	NumberFormat noCommaFormat;
 
-	SliderDialog(CircuitElm ce, CirSim f) {
+	SliderDialog(CircuitElm ce, CircuitSimulator f) {
 		super(); // Do we need this?
-		setText(CirSim.LS("Add Sliders"));
+		setText(CircuitSimulator.LS("Add Sliders"));
 		sim = f;
 		elm = ce;
 		vp=new VerticalPanel();
@@ -63,13 +63,13 @@ class SliderDialog extends DialogBox  {
 		hp.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 		hp.setStyleName("topSpace");
 		vp.add(hp);
-		hp.add(applyButton = new Button(CirSim.LS("Apply")));
+		hp.add(applyButton = new Button(CircuitSimulator.LS("Apply")));
 		applyButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				apply();
 			}
 		});
-		hp.add(okButton = new Button(CirSim.LS("OK")));
+		hp.add(okButton = new Button(CircuitSimulator.LS("OK")));
 		okButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				apply();
@@ -77,7 +77,7 @@ class SliderDialog extends DialogBox  {
 			}
 		});
 		hp.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
-		hp.add(cancelButton = new Button(CirSim.LS("Cancel")));
+		hp.add(cancelButton = new Button(CircuitSimulator.LS("Cancel")));
 		cancelButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				closeDialog();
@@ -98,7 +98,7 @@ class SliderDialog extends DialogBox  {
 			if (!ei.canCreateAdjustable())
 			    continue;
 			Adjustable adj = findAdjustable(i);
-			String name = CirSim.LS(ei.name);
+			String name = CircuitSimulator.LS(ei.name);
 			idx = vp.getWidgetIndex(hp);
 
 			// remove HTML

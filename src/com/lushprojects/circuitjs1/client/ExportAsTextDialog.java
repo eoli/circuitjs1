@@ -33,10 +33,10 @@ import com.google.gwt.safehtml.shared.SafeHtml;
 public class ExportAsTextDialog extends DialogBox {
 	
 	VerticalPanel vp;
-	CirSim sim;
+	CircuitSimulator sim;
 	TextArea textArea;
 	
-	public ExportAsTextDialog(CirSim asim, String s) {
+	public ExportAsTextDialog(CircuitSimulator asim, String s) {
 		super();
 		sim = asim;
 	//	RichTextArea tb;
@@ -65,7 +65,7 @@ public class ExportAsTextDialog extends DialogBox {
 		hp.setStyleName("topSpace");
 		vp.add(hp);
 		hp.add(okButton = new Button(sim.LS("OK")));
-		hp.add(copyButton = new Button(CirSim.LS("Copy to Clipboard")));
+		hp.add(copyButton = new Button(CircuitSimulator.LS("Copy to Clipboard")));
 		hp.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
 		hp.add(importButton = new Button(sim.LS("Re-Import")));
 		okButton.addClickHandler(new ClickHandler() {

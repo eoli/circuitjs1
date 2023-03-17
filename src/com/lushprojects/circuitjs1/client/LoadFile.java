@@ -25,7 +25,7 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 
 public class LoadFile extends FileUpload implements  ChangeHandler {
 	
-	static CirSim sim;
+	static CircuitSimulator sim;
 	
 	static public final native boolean isSupported() 
 		/*-{
@@ -40,7 +40,7 @@ public class LoadFile extends FileUpload implements  ChangeHandler {
 		sim.unsavedChanges = false;
 	}
 	
-	LoadFile(CirSim s) {
+	LoadFile(CircuitSimulator s) {
 		super();
 		sim=s;
 		this.setName("Import");

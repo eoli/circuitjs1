@@ -46,7 +46,7 @@ public class TransistorModel implements Editable, Comparable<TransistorModel> {
 	if (lm != null)
 	    return lm;
 	if (oldmodel == null) {
-	    CirSim.console("model not found: " + name);
+	    CircuitSimulator.console("model not found: " + name);
 	    return getDefaultModel();
 	}
 	lm = new TransistorModel(oldmodel);
@@ -102,7 +102,7 @@ public class TransistorModel implements Editable, Comparable<TransistorModel> {
     String getDescription() {
 	if (description == null)
 	    return name;
-	return name + " (" + CirSim.LS(description) + ")";
+	return name + " (" + CircuitSimulator.LS(description) + ")";
     }
 
     TransistorModel() {
@@ -191,7 +191,7 @@ public class TransistorModel implements Editable, Comparable<TransistorModel> {
 	if (n == 11) BCleakCur = ei.value;
 	if (n == 12) leakBCemissionCoeff = ei.value;
 	updateModel();
-	CirSim.theSim.updateModels();
+	CircuitSimulator.theSim.updateModels();
     }
 
     void updateModel() {

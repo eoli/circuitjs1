@@ -35,7 +35,7 @@ public abstract class CircuitElm implements Editable {
     // scratch points for convenience
     static Point ps1, ps2;
     
-    static CirSim sim;
+    static CircuitSimulator sim;
     static Color whiteColor, selectColor, lightGrayColor;
     static Font unitsFont;
 
@@ -96,7 +96,7 @@ public abstract class CircuitElm implements Editable {
     
     int getDefaultFlags() { return 0; }
 
-    static void initClass(CirSim s) {
+    static void initClass(CircuitSimulator s) {
 	unitsFont = new Font("SansSerif", 0, 12);
 	sim = s;
 	
@@ -456,8 +456,8 @@ public abstract class CircuitElm implements Editable {
 	// this element is selected or is being created
 	if (sim.dragElm == null && !needsHighlight())
 	    return;
-	if (sim.mouseMode == CirSim.MODE_DRAG_ROW ||
-	    sim.mouseMode == CirSim.MODE_DRAG_COLUMN)
+	if (sim.mouseMode == CircuitSimulator.MODE_DRAG_ROW ||
+	    sim.mouseMode == CircuitSimulator.MODE_DRAG_COLUMN)
 	    return;
 	int i;
 	for (i = 0; i != getPostCount(); i++) {
@@ -773,7 +773,7 @@ public abstract class CircuitElm implements Editable {
 	if (va < 1e-6)
 	    return format(v*1e9, sf) + sp + "n" + u;
 	if (va < 1e-3)
-	    return format(v*1e6, sf) + sp + CirSim.muString + u;
+	    return format(v*1e6, sf) + sp + CircuitSimulator.muString + u;
 	if (va < 1)
 	    return format(v*1e3, sf) + sp + "m" + u;
 	if (va < 1e3)
@@ -798,7 +798,7 @@ public abstract class CircuitElm implements Editable {
 	if (scale == SCALE_M)
 	    return showFormat.format(1e3*val) + " m" + utext;
 	if (scale == SCALE_MU)
-	    return showFormat.format(1e6*val) + " " + CirSim.muString + utext;
+	    return showFormat.format(1e6*val) + " " + CircuitSimulator.muString + utext;
 	return getUnitText(val, utext);
     }
 

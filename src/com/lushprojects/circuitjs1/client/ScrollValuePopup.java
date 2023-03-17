@@ -48,10 +48,10 @@ public class ScrollValuePopup extends PopupPanel implements MouseOutHandler, Mou
 	int deltaY;
 	String name;
 	EditInfo inf;
-	CirSim sim;
+	CircuitSimulator sim;
 	
 	
-	ScrollValuePopup(final int x, final int y, int dy, CircuitElm e, CirSim s) {
+	ScrollValuePopup(final int x, final int y, int dy, CircuitElm e, CircuitSimulator s) {
 		super();
 		myElm=e;
 		deltaY=0;

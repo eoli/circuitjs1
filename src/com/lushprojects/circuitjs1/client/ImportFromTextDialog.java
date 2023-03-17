@@ -32,11 +32,11 @@ public class ImportFromTextDialog extends DialogBox {
 	
 VerticalPanel vp;
 HorizontalPanel hp;
-CirSim sim;
+CircuitSimulator sim;
 // RichTextArea textBox;
 TextArea textArea;
 	
-	public ImportFromTextDialog( CirSim asim) {
+	public ImportFromTextDialog( CircuitSimulator asim) {
 		super();
 		sim=asim;
 		Button okButton, cancelButton;
@@ -49,7 +49,7 @@ TextArea textArea;
 		vp.add(textArea = new TextArea());
 		textArea.setWidth("300px");
 		textArea.setHeight("200px");
-		vp.add(subCheck = new Checkbox(CirSim.LS("Load Subcircuits Only")));
+		vp.add(subCheck = new Checkbox(CircuitSimulator.LS("Load Subcircuits Only")));
 		hp = new HorizontalPanel();
 		vp.add(hp);
 		hp.add(okButton = new Button(sim.LS("OK")));
@@ -63,7 +63,7 @@ TextArea textArea;
 				s=textArea.getText();
 				int flags = 0;
 				if (subCheck.getState())
-				    flags |= CirSim.RC_SUBCIRCUITS | CirSim.RC_RETAIN;
+				    flags |= CircuitSimulator.RC_SUBCIRCUITS | CircuitSimulator.RC_RETAIN;
 				if (s!=null) {
 					sim.readCircuit(s, flags);
 					sim.allowSave(false);

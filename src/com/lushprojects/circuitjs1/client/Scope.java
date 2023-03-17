@@ -101,7 +101,7 @@ class ScopePlot {
     		maxValues[i1] = oldMax[i2];
     	    }
     	} else
-    	    lastUpdateTime = CirSim.theSim.t;
+    	    lastUpdateTime = CircuitSimulator.theSim.t;
     	ptr = 0;
     }
 
@@ -121,10 +121,10 @@ class ScopePlot {
 		minValues[ptr] = v;
 	if (v > maxValues[ptr])
 		maxValues[ptr] = v;
-	if (CirSim.theSim.t-lastUpdateTime >= CirSim.theSim.maxTimeStep * scopePlotSpeed) {
+	if (CircuitSimulator.theSim.t-lastUpdateTime >= CircuitSimulator.theSim.maxTimeStep * scopePlotSpeed) {
 	    ptr = (ptr+1) & (scopePointCount-1);
 	    minValues[ptr] = maxValues[ptr] = v;
-	    lastUpdateTime += CirSim.theSim.maxTimeStep * scopePlotSpeed;
+	    lastUpdateTime += CircuitSimulator.theSim.maxTimeStep * scopePlotSpeed;
 	}
     }
     
@@ -135,7 +135,7 @@ class ScopePlot {
 	case Scope.UNITS_A:
 	    return CircuitElm.getCurrentText(v);
 	case Scope.UNITS_OHMS:
-	    return CircuitElm.getUnitText(v, CirSim.ohmString);
+	    return CircuitElm.getUnitText(v, CircuitSimulator.ohmString);
 	case Scope.UNITS_W:
 	    return CircuitElm.getUnitText(v, "W");
 	}
@@ -157,10 +157,10 @@ class ScopePlot {
 	    color = CircuitElm.positiveColor.getHexValue();
 	    break;
 	case Scope.UNITS_A:
-	    color = (CirSim.theSim.printableCheckItem.getState()) ? "#A0A000" : "#FFFF00";
+	    color = (CircuitSimulator.theSim.printableCheckItem.getState()) ? "#A0A000" : "#FFFF00";
 	    break;
 	default:
-	    color = (CirSim.theSim.printableCheckItem.getState()) ? "#000000" : "#FFFFFF";
+	    color = (CircuitSimulator.theSim.printableCheckItem.getState()) ? "#000000" : "#FFFFFF";
 	    break;
 	}
     }
@@ -236,7 +236,7 @@ class Scope {
     int pixels[];
     int draw_ox, draw_oy;
     float dpixels[];
-    CirSim sim;
+    CircuitSimulator sim;
     Canvas imageCanvas;
     Context2d imageContext;
     int alphadiv =0;
@@ -255,7 +255,7 @@ class Scope {
     boolean drawGridLines;
     boolean somethingSelected;
     
-    Scope(CirSim s) {
+    Scope(CircuitSimulator s) {
     	sim = s;
     	scale = new double[UNITS_COUNT];
     	reduceRange = new boolean[UNITS_COUNT];
@@ -345,7 +345,7 @@ class Scope {
     static String getScaleUnitsText(int units) {
 	switch (units) {
 	case UNITS_A: return "A";
-	case UNITS_OHMS: return CirSim.ohmString;
+	case UNITS_OHMS: return CircuitSimulator.ohmString;
 	case UNITS_W: return "W";
 	default: return "V";
 	}
@@ -1453,7 +1453,7 @@ class Scope {
 	}
 	if (waveCount > 1) {
 	    avg = (endAvg/(end-start));
-	    drawInfoText(g, plot.getUnitText(avg) + CirSim.LS(" average"));
+	    drawInfoText(g, plot.getUnitText(avg) + CircuitSimulator.LS(" average"));
 	}
     }
 
@@ -1511,7 +1511,7 @@ class Scope {
 	}
 	if (waveCount > 1) {
 	    int duty = 100*dutyLen/(end-start);
-	    drawInfoText(g, CirSim.LS("Duty cycle ") + duty + "%");
+	    drawInfoText(g, CircuitSimulator.LS("Duty cycle ") + duty + "%");
 	}
     }
 
@@ -1645,7 +1645,7 @@ class Scope {
     	    t = getScopeText();
     	    if (t==null)
     		return "";
-    	    return CirSim.LS(t);
+    	    return CircuitSimulator.LS(t);
     	}
     	else
     	    return t;
@@ -1662,7 +1662,7 @@ class Scope {
     
     void properties() {
 	properties = new ScopePropertiesDialog(sim, this);
-	CirSim.dialogShowing = properties;
+	CircuitSimulator.dialogShowing = properties;
     }
     
     void speedUp() {
@@ -1897,7 +1897,7 @@ class Scope {
     	
     	// store current scope settings as default.  1 is a version code
     	stor.setItem("scopeDefaults", "1 " + flags + " " + vPlot.scopePlotSpeed);
-    	CirSim.console("saved defaults " + flags);
+    	CircuitSimulator.console("saved defaults " + flags);
     }
 
     boolean loadDefaults() {

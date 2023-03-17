@@ -97,20 +97,43 @@ import com.google.gwt.user.client.Window.ClosingEvent;
 import com.google.gwt.user.client.Window.Navigator;
 import com.google.gwt.event.logical.shared.CloseHandler;
 
-public class CirSim implements MouseDownHandler, MouseMoveHandler, MouseUpHandler,
-ClickHandler, DoubleClickHandler, ContextMenuHandler, NativePreviewHandler,
-MouseOutHandler, MouseWheelHandler {
+/**
+ * @author eoli
+ *
+ */
+public class CircuitSimulator implements 
+  MouseDownHandler
+, MouseMoveHandler
+, MouseUpHandler
+, MouseOutHandler
+, MouseWheelHandler
+, ClickHandler
+, DoubleClickHandler
+, ContextMenuHandler
+, NativePreviewHandler
+ {
     
     Random random;
     Button resetButton;
     Button runStopButton;
     Button dumpMatrixButton;
     MenuItem aboutItem;
-    MenuItem importFromLocalFileItem, importFromTextItem,
-    	exportAsUrlItem, exportAsLocalFileItem, exportAsTextItem, printItem, recoverItem, saveFileItem;
+    MenuItem importFromLocalFileItem
+    		, importFromTextItem
+    		, exportAsUrlItem
+    		, exportAsLocalFileItem
+    		, exportAsTextItem
+    		, printItem
+    		, recoverItem
+    		, saveFileItem;
     MenuItem importFromDropboxItem;
-    MenuItem undoItem, redoItem,
-	cutItem, copyItem, pasteItem, selectAllItem, optionsItem;
+    MenuItem undoItem
+    		, redoItem
+    		, cutItem
+    		, copyItem
+    		, pasteItem
+    		, selectAllItem
+    		, optionsItem;
     MenuBar optionsMenuBar;
     CheckboxMenuItem dotsCheckItem;
     CheckboxMenuItem voltsCheckItem;
@@ -330,7 +353,7 @@ MouseOutHandler, MouseWheelHandler {
 
 //    Circuit applet;
 
-    CirSim() {
+    CircuitSimulator() {
 //	super("Circuit Simulator v1.6d");
 //	applet = a;
 //	useFrame = false;
@@ -618,20 +641,29 @@ MouseOutHandler, MouseWheelHandler {
 	    verticalPanel.add(loadFileInput = new LoadFile(this));
 
 	Label l;
-	verticalPanel.add(l = new Label(LS("Simulation Speed")));
-	l.addStyleName("topSpace");
 
+	// Simulation Speed
+	l = new Label(LS("Simulation Speed"));
+	l.addStyleName("topSpace");
+	verticalPanel.add(l);
 	// was max of 140
-	verticalPanel.add( speedBar = new Scrollbar(Scrollbar.HORIZONTAL, 3, 1, 0, 260));
+	speedBar = new Scrollbar(Scrollbar.HORIZONTAL, 3, 1, 0, 260);
+	verticalPanel.add(speedBar);
 
-	verticalPanel.add( l = new Label(LS("Current Speed")));
+	// Current Speed
+	l = new Label(LS("Current Speed"));
 	l.addStyleName("topSpace");
+	verticalPanel.add(l);
+	
 	currentBar = new Scrollbar(Scrollbar.HORIZONTAL, 50, 1, 1, 100);
 	verticalPanel.add(currentBar);
-	verticalPanel.add(powerLabel = new Label (LS("Power Brightness")));
+
+	// Power Brightness
+	powerLabel = new Label (LS("Power Brightness"));
 	powerLabel.addStyleName("topSpace");
-	verticalPanel.add(powerBar = new Scrollbar(Scrollbar.HORIZONTAL,
-		50, 1, 1, 100));
+	verticalPanel.add(powerLabel);
+	powerBar = new Scrollbar(Scrollbar.HORIZONTAL, 50, 1, 1, 100);
+	verticalPanel.add(powerBar);
 	setPowerBarEnable();
 
 	//	verticalPanel.add(new Label(""));
@@ -705,9 +737,6 @@ MouseOutHandler, MouseWheelHandler {
 	    }
 	}
 
-
-
-
 	enableUndoRedo();
 	enablePaste();
 	setiFrameHeight();
@@ -735,9 +764,6 @@ MouseOutHandler, MouseWheelHandler {
 	    }
 	});
 
-
-	
-	
 	setSimRunning(running);
     }
 
@@ -868,7 +894,7 @@ MouseOutHandler, MouseWheelHandler {
      		    etype = "dblclick";
   		} else {
   		    tmout = setTimeout(function() {
-  		        sim.@com.lushprojects.circuitjs1.client.CirSim::longPress()();
+  		        sim.@com.lushprojects.circuitjs1.client.CircuitSimulator::longPress()();
   		    }, 500);
   		}
   		lastTap = e.timeStamp;
@@ -1195,7 +1221,7 @@ MouseOutHandler, MouseWheelHandler {
     int frames = 0;
     int steps = 0;
     int framerate = 0, steprate = 0;
-    static CirSim theSim;
+    static CircuitSimulator theSim;
 
     
     public void setSimRunning(boolean s) {
@@ -1334,7 +1360,7 @@ MouseOutHandler, MouseWheelHandler {
 	mydrawtime+=System.currentTimeMillis()-mydrawstarttime;
 	
 	// draw posts normally
-	if (mouseMode != CirSim.MODE_DRAG_ROW && mouseMode != CirSim.MODE_DRAG_COLUMN) {
+	if (mouseMode != CircuitSimulator.MODE_DRAG_ROW && mouseMode != CircuitSimulator.MODE_DRAG_COLUMN) {
 	    for (i = 0; i != postDrawList.size(); i++)
 		CircuitElm.drawPost(g, postDrawList.get(i));
 	}
@@ -2826,7 +2852,7 @@ MouseOutHandler, MouseWheelHandler {
             if (file.canceled)
             	return;
             $wnd.saveFile(file, dump);
-            @com.lushprojects.circuitjs1.client.CirSim::electronSaveAsCallback(Ljava/lang/String;)(file.filePath.toString());
+            @com.lushprojects.circuitjs1.client.CircuitSimulator::electronSaveAsCallback(Ljava/lang/String;)(file.filePath.toString());
         });
     }-*/;
 
@@ -2841,7 +2867,7 @@ MouseOutHandler, MouseWheelHandler {
     
     static native void electronOpenFile() /*-{
         $wnd.openFile(function (text, name) {
-            @com.lushprojects.circuitjs1.client.CirSim::electronOpenFileCallback(Ljava/lang/String;Ljava/lang/String;)(text, name);
+            @com.lushprojects.circuitjs1.client.CircuitSimulator::electronOpenFileCallback(Ljava/lang/String;Ljava/lang/String;)(text, name);
         });
     }-*/;
     
@@ -5500,23 +5526,29 @@ MouseOutHandler, MouseWheelHandler {
     }
     }-*/;
     
+    /**
+     * Translate s depend on location
+     *
+     * @param s the input String
+     * @return String
+     */
     static String LS(String s) {
-	if (s == null)
-	    return null;
-	String sm = localizationMap.get(s);
-	if (sm != null)
-	    return sm;
-	
-	// use trailing ~ to differentiate strings that are the same in English but need different translations.
-	// remove these if there's no translation.
-	int ix = s.indexOf('~');
-	if (ix < 0)
-	    return s;
-	s = s.substring(0, ix);
-	sm = localizationMap.get(s);
-	if (sm != null)
-	    return sm;
-	return s;
+		if (s == null)
+			return null;
+		String sm = localizationMap.get(s);
+		if (sm != null)
+			return sm;
+		
+		// use trailing ~ to differentiate strings that are the same in English but need different translations.
+		// remove these if there's no translation.
+		int ix = s.indexOf('~');
+		if (ix < 0)
+			return s;
+		s = s.substring(0, ix);
+		sm = localizationMap.get(s);
+		if (sm != null)
+			return sm;
+		return s;
     }
     static SafeHtml LSHTML(String s) { return SafeHtmlUtils.fromTrustedString(LS(s)); }
     

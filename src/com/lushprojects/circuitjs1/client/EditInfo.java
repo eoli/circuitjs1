@@ -73,6 +73,6 @@ class EditInfo {
 	}
 
 	static String makeLink(String file, String text) {
-            return "<a href=\"" + file + "\" target=\"_blank\">" + CirSim.LS(text) + "</a>";
+            return "<a href=\"" + file + "\" target=\"_blank\">" + CircuitSimulator.LS(text) + "</a>";
 	}
 }

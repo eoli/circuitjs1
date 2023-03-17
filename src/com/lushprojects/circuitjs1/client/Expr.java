@@ -101,7 +101,7 @@ class Expr {
 	default:
 	    if (type >= E_A)
 		return es.values[type-E_A];
-	    CirSim.console("unknown\n");
+	    CircuitSimulator.console("unknown\n");
 	}
 	return 0;
     }
@@ -355,7 +355,7 @@ class ExprParser {
 	    return e;
 	} catch (Exception e) {
 	    err = true;
-	    CirSim.console("unrecognized token: " + token + "\n");
+	    CircuitSimulator.console("unrecognized token: " + token + "\n");
 	    return new Expr(Expr.E_VAL, 0);
 	}
     }

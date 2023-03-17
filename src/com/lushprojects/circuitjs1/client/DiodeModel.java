@@ -60,7 +60,7 @@ public class DiodeModel implements Editable, Comparable<DiodeModel> {
 	if (lm != null)
 	    return lm;
 	if (oldmodel == null) {
-	    CirSim.console("model not found: " + name);
+	    CircuitSimulator.console("model not found: " + name);
 	    return getDefaultModel();
 	}
 //	CirSim.console("copying to " + name);
@@ -172,7 +172,7 @@ public class DiodeModel implements Editable, Comparable<DiodeModel> {
     String getDescription() {
 	if (description == null)
 	    return name;
-	return name + " (" + CirSim.LS(description) + ")";
+	return name + " (" + CircuitSimulator.LS(description) + ")";
     }
     
     DiodeModel() {
@@ -258,7 +258,7 @@ public class DiodeModel implements Editable, Comparable<DiodeModel> {
 	if (n == 4)
 	    breakdownVoltage = Math.abs(ei.value);
 	updateModel();
-	CirSim.theSim.updateModels();
+	CircuitSimulator.theSim.updateModels();
     }
 
     // set emission coefficient for simple mode if we have enough data  

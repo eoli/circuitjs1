@@ -8,23 +8,20 @@ public class Adjustable implements Command {
     CircuitElm elm;
     double minValue, maxValue;
     String sliderText;
-    
-    // index of value in getEditInfo() list that this slider controls
-    int editItem;
-    
+    int editItem; // index of value in getEditInfo() list that this slider controls
     Label label;
     Scrollbar slider;
     boolean settingValue;
-    
+
     Adjustable(CircuitElm ce, int item) {
-	minValue = 1;
-	maxValue = 1000;
-	elm = ce;
-	editItem = item;
+        minValue = 1;
+        maxValue = 1000;
+        elm = ce;
+        editItem = item;
     }
 
     // undump
-    Adjustable(StringTokenizer st, CirSim sim) {
+    Adjustable(StringTokenizer st, CircuitSimulator sim) {
 	int e = new Integer(st.nextToken()).intValue();
 	if (e == -1)
 	    return;
@@ -35,12 +32,12 @@ public class Adjustable implements Command {
 	sliderText = CustomLogicModel.unescape(st.nextToken());
     }
     
-    void createSlider(CirSim sim) {
+    void createSlider(CircuitSimulator sim) {
 	double value = elm.getEditInfo(editItem).value;
 	createSlider(sim, value);
     }
 
-    void createSlider(CirSim sim, double value) {
+    void createSlider(CircuitSimulator sim, double value) {
         sim.addWidgetToVerticalPanel(label = new Label(sim.LS(sliderText)));
         label.addStyleName("topSpace");
         int intValue = (int) ((value-minValue)*100/(maxValue-minValue));
@@ -55,20 +52,20 @@ public class Adjustable implements Command {
     }
     
     public void execute() {
-	elm.sim.analyzeFlag = true;
-	if (settingValue)
-	    return;
-	EditInfo ei = elm.getEditInfo(editItem);
-	ei.value = getSliderValue();
-	elm.setEditValue(editItem, ei);
-	elm.sim.repaint();
+        elm.sim.analyzeFlag = true;
+        if (settingValue)
+            return;
+        EditInfo ei = elm.getEditInfo(editItem);
+        ei.value = getSliderValue();
+        elm.setEditValue(editItem, ei);
+        elm.sim.repaint();
     }
     
     double getSliderValue() {
-	return minValue + (maxValue-minValue)*slider.getValue()/100;
+        return minValue + (maxValue-minValue)*slider.getValue()/100;
     }
     
-    void deleteSlider(CirSim sim) {
+    void deleteSlider(CircuitSimulator sim) {
         sim.removeWidgetFromVerticalPanel(label);
         sim.removeWidgetFromVerticalPanel(slider);
     }

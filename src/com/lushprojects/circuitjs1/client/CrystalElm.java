@@ -140,7 +140,7 @@ package com.lushprojects.circuitjs1.client;
 	    if (n == 2)
 		return new EditInfo("Inductance (H)", inductance, 0, 0);
 	    if (n == 3)
-		return new EditInfo("Resistance (" + CirSim.ohmString + ")", resistance, 0, 0);
+		return new EditInfo("Resistance (" + CircuitSimulator.ohmString + ")", resistance, 0, 0);
 	    return null;
 	}
 	public void setEditValue(int n, EditInfo ei) {

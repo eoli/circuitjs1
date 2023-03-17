@@ -37,7 +37,7 @@ package com.lushprojects.circuitjs1.client;
 		final double fwdrop = 2.1024259;
 	        model = DiodeModel.getModelWithParameters(fwdrop, 0);
 	        modelName = model.name;
-	        CirSim.console("model name wparams = " + modelName);
+	        CircuitSimulator.console("model name wparams = " + modelName);
 		setup();
 	    }
 	    colorR = new Double(st.nextToken()).doubleValue();

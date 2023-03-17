@@ -41,12 +41,12 @@ import com.google.gwt.safehtml.shared.SafeHtml;
 public class ShortcutsDialog extends DialogBox {
 	
 	VerticalPanel vp;
-	CirSim sim;
+	CircuitSimulator sim;
 	TextArea textArea;
 	Vector<TextBox> textBoxes;
 	Button okButton;
 	
-	public ShortcutsDialog(CirSim asim) {
+	public ShortcutsDialog(CircuitSimulator asim) {
 		super();
 		sim = asim;
 		Button cancelButton;

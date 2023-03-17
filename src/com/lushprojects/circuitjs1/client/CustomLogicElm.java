@@ -243,7 +243,7 @@ public class CustomLogicElm extends ChipElm {
 	if (n == 3)
 	{
 	    EditDialog editDialog = new EditDialog(model, sim);
-	    CirSim.customLogicEditDialog = editDialog;
+	    CircuitSimulator.customLogicEditDialog = editDialog;
 	    editDialog.show();
 	    return;
 	}

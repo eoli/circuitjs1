@@ -73,7 +73,7 @@ public abstract class CompositeElm extends CircuitElm {
 	    String line = modelLinet.nextToken();
 	    StringTokenizer stModel = new StringTokenizer(line, " +\t\n\r\f");
 	    String ceType = stModel.nextToken();
-	    CircuitElm newce = CirSim.constructElement(ceType, 0, 0);
+	    CircuitElm newce = CircuitSimulator.constructElement(ceType, 0, 0);
 	    if (stIn!=null) {
 		int tint = newce.getDumpType();
 		String dumpedCe= stIn.nextToken();
@@ -81,7 +81,7 @@ public abstract class CompositeElm extends CircuitElm {
 		    dumpedCe = CustomLogicModel.unescape(dumpedCe);
 		StringTokenizer stCe = new StringTokenizer(dumpedCe, useEscape() ? " " : "_");
 		int flags = new Integer(stCe.nextToken()).intValue();
-		newce = CirSim.createCe(tint, 0, 0, 0, 0, flags, stCe);
+		newce = CircuitSimulator.createCe(tint, 0, 0, 0, 0, flags, stCe);
 	    }
 	    compElmList.add(newce);
 

@@ -23,9 +23,9 @@ import com.google.gwt.storage.client.Storage;
 import com.google.gwt.user.client.Window;
 
 class EditOptions implements Editable {
-	CirSim sim;
+	CircuitSimulator sim;
 	
-	public EditOptions(CirSim s) { sim = s; }
+	public EditOptions(CircuitSimulator s) { sim = s; }
 	
 	public EditInfo getEditInfo(int n) {
 		if (n == 0)

@@ -38,7 +38,7 @@ class ZenerElm extends DiodeElm {
 	    double zvoltage = new Double(st.nextToken()).doubleValue();
             model = DiodeModel.getModelWithParameters(model.fwdrop, zvoltage);
             modelName = model.name;
-            CirSim.console("model name wparams = " + modelName);
+            CircuitSimulator.console("model name wparams = " + modelName);
 	}
 	setup();
     }

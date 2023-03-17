@@ -28,7 +28,7 @@ public class Choice extends ListBox {
 	}
 	
 	public void add(String s){
-		this.addItem(CirSim.LS(s));
+		this.addItem(CircuitSimulator.LS(s));
 	}
 	
 	public void select(int i){

@@ -288,7 +288,7 @@ class ProbeElm extends CircuitElm {
             ei.choice.add("Auto");
             ei.choice.add("V");
             ei.choice.add("mV");
-            ei.choice.add(CirSim.muString + "V");
+            ei.choice.add(CircuitSimulator.muString + "V");
             ei.choice.select(scale);
             return ei;
         }

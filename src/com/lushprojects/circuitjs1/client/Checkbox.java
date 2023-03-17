@@ -23,11 +23,11 @@ import com.google.gwt.user.client.ui.CheckBox;
 
 class Checkbox extends CheckBox {
 	public Checkbox(String s){
-		super(CirSim.LS(s));
+		super(CircuitSimulator.LS(s));
 	}
 	
 	public Checkbox(String s, boolean b){
-		super(CirSim.LS(s));
+		super(CircuitSimulator.LS(s));
 		this.setValue(b);
 	}
 	

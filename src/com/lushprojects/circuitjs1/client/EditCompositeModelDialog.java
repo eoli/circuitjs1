@@ -65,11 +65,11 @@ public class EditCompositeModelDialog extends DialogBox implements MouseDownHand
 	
         boolean createModel() {
             HashSet<Integer> nodeSet = new HashSet<Integer>();
-            model = CirSim.theSim.getCircuitAsComposite();
+            model = CircuitSimulator.theSim.getCircuitAsComposite();
             if (model == null)
         	return false;
             if (model.extList.size() == 0) {
-        	Window.alert(CirSim.LS("Device has no external inputs/outputs!"));
+        	Window.alert(CircuitSimulator.LS("Device has no external inputs/outputs!"));
         	return false;
             }
             Collections.sort(model.extList, new Comparator<ExtListEntry>() {
@@ -89,7 +89,7 @@ public class EditCompositeModelDialog extends DialogBox implements MouseDownHand
         	pin.pos = left ? i : i-model.sizeY;
         	pin.side = side;
         	if (nodeSet.contains(pin.node)) {
-        	    Window.alert(CirSim.LS("Can't have two input/output nodes connected!"));
+        	    Window.alert(CircuitSimulator.LS("Can't have two input/output nodes connected!"));
         	    return false;
         	}
         	nodeSet.add(pin.node);
@@ -108,8 +108,8 @@ public class EditCompositeModelDialog extends DialogBox implements MouseDownHand
 		Anchor a;
 		vp=new VerticalPanel();
 		setWidget(vp);
-		setText(CirSim.LS("Edit Subcircuit Model"));
-		vp.add(new Label(CirSim.LS("Drag the pins to the desired position")));
+		setText(CircuitSimulator.LS("Edit Subcircuit Model"));
+		vp.add(new Label(CircuitSimulator.LS("Drag the pins to the desired position")));
 		Date date = new Date();
 
 		Canvas canvas = Canvas.createIfSupported();
@@ -127,14 +127,14 @@ public class EditCompositeModelDialog extends DialogBox implements MouseDownHand
 		createPinsFromModel();
 		
 		if (model.name == null) {
-		    vp.add(new Label(CirSim.LS("Model Name")));
+		    vp.add(new Label(CircuitSimulator.LS("Model Name")));
 		    modelNameTextBox = new TextBox();
 		    vp.add(modelNameTextBox);
 //		    modelNameTextBox.setText(model.name);
 		}
 		
 		HorizontalPanel hp = new HorizontalPanel();
-		hp.add(new Label(CirSim.LS("Width")));
+		hp.add(new Label(CircuitSimulator.LS("Width")));
 		Button b;
 		hp.add(b = new Button("+"));
 		b.addClickHandler(new ClickHandler() {
@@ -148,7 +148,7 @@ public class EditCompositeModelDialog extends DialogBox implements MouseDownHand
                 	adjustChipSize(-1, 0);
                     }
                 });
-		hp.add(new Label(CirSim.LS("Height")));
+		hp.add(new Label(CircuitSimulator.LS("Height")));
 		hp.add(b = new Button("+"));
 		b.addClickHandler(new ClickHandler() {
                     public void onClick(ClickEvent event) {
@@ -174,11 +174,11 @@ public class EditCompositeModelDialog extends DialogBox implements MouseDownHand
                 hp.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
                 hp.setStyleName("topSpace");
                 vp.add(hp);
-                hp.add(okButton = new Button(CirSim.LS("OK")));
+                hp.add(okButton = new Button(CircuitSimulator.LS("OK")));
                 hp.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_RIGHT);
                 Button cancelButton;
 		if (model.name == null) {
-		    hp.add(cancelButton = new Button(CirSim.LS("Cancel")));
+		    hp.add(cancelButton = new Button(CircuitSimulator.LS("Cancel")));
 		    cancelButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 			    closeDialog();
@@ -190,13 +190,13 @@ public class EditCompositeModelDialog extends DialogBox implements MouseDownHand
 			    if (modelNameTextBox != null) {
 				String name = modelNameTextBox.getText();
 				if (name.length() == 0) {
-				    Window.alert(CirSim.LS("Please enter a model name."));
+				    Window.alert(CircuitSimulator.LS("Please enter a model name."));
 				    return;
 				}
 				model.setName(CustomCompositeElm.lastModelName = name);
 			    }
-			    CirSim.theSim.updateModels();
-			    CirSim.theSim.needAnalyze(); // will get singular matrix if we don't do this
+			    CircuitSimulator.theSim.updateModels();
+			    CircuitSimulator.theSim.needAnalyze(); // will get singular matrix if we don't do this
 			    closeDialog();
 			}
 		});
@@ -225,7 +225,7 @@ public class EditCompositeModelDialog extends DialogBox implements MouseDownHand
 	    double scalew = context.getCanvas().getWidth()  / (double)(chip.boundingBox.width + chip.boundingBox.x*2);
 	    double scaleh = context.getCanvas().getHeight() / (double)(chip.boundingBox.height + chip.boundingBox.y*2);
 	    scale = 1/Math.min(scalew, scaleh);
-	    context.setFillStyle(CirSim.theSim.getBackgroundColor().getHexValue());
+	    context.setFillStyle(CircuitSimulator.theSim.getBackgroundColor().getHexValue());
 	    context.fillRect(0, 0, context.getCanvas().getWidth(), context.getCanvas().getHeight());
 	    context.setTransform(1/scale, 0, 0, 1/scale, 0, 0);
 	    chip.draw(g);

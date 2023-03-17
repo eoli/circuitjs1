@@ -198,7 +198,7 @@ package com.lushprojects.circuitjs1.client;
             ei.choice.add("Auto");
             ei.choice.add("A");
             ei.choice.add("mA");
-            ei.choice.add(CirSim.muString + "A");
+            ei.choice.add(CircuitSimulator.muString + "A");
             ei.choice.select(scale);
             return ei;
         }

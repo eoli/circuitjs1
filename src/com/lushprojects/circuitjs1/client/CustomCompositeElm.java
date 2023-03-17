@@ -152,13 +152,13 @@ public class CustomCompositeElm extends CompositeElm {
 	}
         if (n == 1) {
             if (model.name.equals("default")) {
-        	Window.alert(CirSim.LS("Can't edit this model."));
+        	Window.alert(CircuitSimulator.LS("Can't edit this model."));
         	return;
             }
             EditCompositeModelDialog dlg = new EditCompositeModelDialog();
             dlg.setModel(model);
             dlg.createDialog();
-            CirSim.dialogShowing = dlg;
+            CircuitSimulator.dialogShowing = dlg;
             dlg.show();
             return;
         }

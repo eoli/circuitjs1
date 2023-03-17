@@ -3,9 +3,9 @@ package com.lushprojects.circuitjs1.client;
 public class ImportFromDropbox {
 
 	
-	static CirSim sim;
+	static CircuitSimulator sim;
 	
-	ImportFromDropbox( CirSim asim ){
+	ImportFromDropbox( CircuitSimulator asim ){
 		sim=asim;
 //		CirSim.console("importing");
 		doDropboxImport();
