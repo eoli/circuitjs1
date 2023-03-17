@@ -15,10 +15,13 @@ Thanks to: Edward Calver for 15 new components and other improvements; Rodrigo H
 
 The tools you will need to build the project are:
 
-* Eclipse, Oxygen version.
-* GWT plugin for Eclipse.
+* **Eclipse for Java developers**
+  - Install "Eclipse for Java developers" from [here](https://www.eclipse.org/downloads/packages/). 
+* **GWT plugin for Eclipse**
+  - To add the GWT plugin for Eclipse follow the instructions [here](https://gwt-plugins.github.io/documentation/gwt-eclipse-plugin/Download.html).
+* **GWT SDK** >= 2.9.0
+  - Download GWT SDK from [here](https://www.gwtproject.org/versions.html).
 
-Install "Eclipse for Java developers" from [here](https://www.eclipse.org/downloads/packages/). To add the GWT plugin for Eclipse follow the instructions [here](https://gwt-plugins.github.io/documentation/gwt-eclipse-plugin/Download.html).
 
 This repository is a project folder for your Eclipse project space. Once you have a local copy you can then build and run in development mode or build for deployment. Running in super development mode is done by clicking on the "run" icon on the toolbar and choosing http://127.0.0.1:8888/circuitjs.html from the "Development Mode" tab which appears. Building for deployment is done by selecting the project root node and using the GWT button on the Eclipse taskbar and choosing "GWT Compile Project...".
 
