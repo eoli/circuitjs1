@@ -1230,7 +1230,7 @@ public class CircuitSimulator implements
     	        return;
     		simRunning = true;
     		runStopButton.setHTML(LSHTML("Pause"));
-    		runStopButton.setStylePrimaryName("topButton");
+    		runStopButton.setStylePrimaryName("topButton-green");
     		timer.scheduleRepeating(FASTTIMER);
     	} else {
     		simRunning = false;
@@ -3338,45 +3338,62 @@ public class CircuitSimulator implements
     	dialogShowing.show();
     }
     
-
+    /**
+     * Convert whole circuit into String
+     * @param None
+     * @return String. The string stands for circuit.
+     */
     String dumpCircuit() {
-	int i;
-	CustomLogicModel.clearDumpedFlags();
-	CustomCompositeModel.clearDumpedFlags();
-	DiodeModel.clearDumpedFlags();
-	TransistorModel.clearDumpedFlags();
-	int f = (dotsCheckItem.getState()) ? 1 : 0;
-	f |= (smallGridCheckItem.getState()) ? 2 : 0;
-	f |= (voltsCheckItem.getState()) ? 0 : 4;
-	f |= (powerCheckItem.getState()) ? 8 : 0;
-	f |= (showValuesCheckItem.getState()) ? 0 : 16;
-	// 32 = linear scale in afilter
-	f |= adjustTimeStep ? 64 : 0;
-	String dump = "$ " + f + " " +
-	    maxTimeStep + " " + getIterCount() + " " +
-	    currentBar.getValue() + " " + CircuitElm.voltageRange + " " +
-	    powerBar.getValue() + " " + minTimeStep + "\n";
+		int i;
+		String dump;
+
+		CustomLogicModel.clearDumpedFlags();
+		CustomCompositeModel.clearDumpedFlags();
+		DiodeModel.clearDumpedFlags();
+		TransistorModel.clearDumpedFlags();
+
+		// meta configurations
+		int f = (dotsCheckItem.getState()) ? 1 : 0;
+		f |= (smallGridCheckItem.getState()) ? 2 : 0;
+		f |= (voltsCheckItem.getState()) ? 0 : 4;
+		f |= (powerCheckItem.getState()) ? 8 : 0;
+		f |= (showValuesCheckItem.getState()) ? 0 : 16;
+		// 32 = linear scale in afilter
+		f |= adjustTimeStep ? 64 : 0;
+
+		dump = "$ " + f + " " +
+			maxTimeStep + " " + getIterCount() + " " +
+			currentBar.getValue() + " " + CircuitElm.voltageRange + " " +
+			powerBar.getValue() + " " + minTimeStep + "\n";
 		
-	for (i = 0; i != elmList.size(); i++) {
-	    CircuitElm ce = getElm(i);
-	    String m = ce.dumpModel();
-	    if (m != null && !m.isEmpty())
-		dump += m + "\n";
-	    dump += ce.dump() + "\n";
-	}
-	for (i = 0; i != scopeCount; i++) {
-	    String d = scopes[i].dump();
-	    if (d != null)
-		dump += d + "\n";
-	}
-	for (i = 0; i != adjustables.size(); i++) {
-	    Adjustable adj = adjustables.get(i);
-	    dump += "38 " + adj.dump() + "\n";
-	}
-	if (hintType != -1)
-	    dump += "h " + hintType + " " + hintItem1 + " " +
-		hintItem2 + "\n";
-	return dump;
+		// dump circuit elements
+		for (i = 0; i != elmList.size(); i++) {
+			CircuitElm ce = getElm(i);
+			String m = ce.dumpModel();
+			if (m != null && !m.isEmpty())
+			    dump += m + "\n";
+			dump += ce.dump() + "\n";
+		}
+		
+		// dump scopes
+		for (i = 0; i != scopeCount; i++) {
+			String d = scopes[i].dump();
+			if (d != null)
+			dump += d + "\n";
+		}
+		
+		// dump sliders
+		for (i = 0; i != adjustables.size(); i++) {
+			Adjustable adj = adjustables.get(i);
+			dump += "38 " + adj.dump() + "\n";
+		}
+
+		// TODO:
+		if (hintType != -1)
+			dump += "h " + hintType + " " + hintItem1 + " " +
+			hintItem2 + "\n";
+
+		return dump;
     }
 
     void getSetupList(final boolean openDefault) {
@@ -3464,14 +3481,14 @@ public class CircuitSimulator implements
 }
 
     void readCircuit(String text, int flags) {
-	readCircuit(text.getBytes(), flags);
-	if ((flags & RC_KEEP_TITLE) == 0)
-	    titleLabel.setText(null);
+		readCircuit(text.getBytes(), flags);
+		if ((flags & RC_KEEP_TITLE) == 0)
+			titleLabel.setText(null);
     }
 
     void readCircuit(String text) {
-	readCircuit(text.getBytes(), 0);
-	titleLabel.setText(null);
+		readCircuit(text.getBytes(), 0);
+		titleLabel.setText(null);
     }
 
     void setCircuitTitle(String s) {
@@ -3523,139 +3540,151 @@ public class CircuitSimulator implements
     static final int RC_SUBCIRCUITS = 4;
     static final int RC_KEEP_TITLE = 8;
 
+    /**
+     * read circuit
+     * @param b
+     * @param flags
+     */
     void readCircuit(byte b[], int flags) {
-	int i;
-	int len = b.length;
-	if ((flags & RC_RETAIN) == 0) {
-	    clearMouseElm();
-	    for (i = 0; i != elmList.size(); i++) {
-		CircuitElm ce = getElm(i);
-		ce.delete();
-	    }
-	    t = timeStepAccum = 0;
-	    elmList.removeAllElements();
-	    hintType = -1;
-	    maxTimeStep = 5e-6;
-	    minTimeStep = 50e-12;
-	    dotsCheckItem.setState(false);
-	    smallGridCheckItem.setState(false);
-	    powerCheckItem.setState(false);
-	    voltsCheckItem.setState(true);
-	    showValuesCheckItem.setState(true);
-	    setGrid();
-	    speedBar.setValue(117); // 57
-	    currentBar.setValue(50);
-	    powerBar.setValue(50);
-	    CircuitElm.voltageRange = 5;
-	    scopeCount = 0;
-	    lastIterTime = 0;
-	}
-	boolean subs = (flags & RC_SUBCIRCUITS) != 0;
-	//cv.repaint();
-	int p;
-	for (p = 0; p < len; ) {
-	    int l;
-	    int linelen = len-p; // IES - changed to allow the last line to not end with a delim.
-	    for (l = 0; l != len-p; l++)
-		if (b[l+p] == '\n' || b[l+p] == '\r') {
-		    linelen = l++;
-		    if (l+p < b.length && b[l+p] == '\n')
-			l++;
-		    break;
+		int i;
+		int len = b.length;
+		if ((flags & RC_RETAIN) == 0) {
+			clearMouseElm();
+			for (i = 0; i != elmList.size(); i++) {
+			CircuitElm ce = getElm(i);
+			ce.delete();
+			}
+			t = timeStepAccum = 0;
+			elmList.removeAllElements();
+			hintType = -1;
+			maxTimeStep = 5e-6;
+			minTimeStep = 50e-12;
+			dotsCheckItem.setState(false);
+			smallGridCheckItem.setState(false);
+			powerCheckItem.setState(false);
+			voltsCheckItem.setState(true);
+			showValuesCheckItem.setState(true);
+			setGrid();
+			speedBar.setValue(117); // 57
+			currentBar.setValue(50);
+			powerBar.setValue(50);
+			CircuitElm.voltageRange = 5;
+			scopeCount = 0;
+			lastIterTime = 0;
 		}
-	    String line = new String(b, p, linelen);
-	    StringTokenizer st = new StringTokenizer(line, " +\t\n\r\f");
-	    while (st.hasMoreTokens()) {
-		String type = st.nextToken();
-		int tint = type.charAt(0);
-		try {
-		    if (subs && tint != '.')
-			continue;
-		    if (tint == 'o') {
-			Scope sc = new Scope(this);
-			sc.position = scopeCount;
-			sc.undump(st);
-			scopes[scopeCount++] = sc;
-			break;
-		    }
-		    if (tint == 'h') {
-			readHint(st);
-			break;
-		    }
-		    if (tint == '$') {
-			readOptions(st);
-			break;
-		    }
-		    if (tint == '!') {
-			CustomLogicModel.undumpModel(st);
-			break;
-		    }
-		    if (tint == '%' || tint == '?' || tint == 'B') {
-			// ignore afilter-specific stuff
-			break;
-		    }
-		    // do not add new symbols here without testing export as link
-		    
-		    // if first character is a digit then parse the type as a number
-		    if (tint >= '0' && tint <= '9')
-			tint = new Integer(type).intValue();
-		    
-		    if (tint == 34) {
-			DiodeModel.undumpModel(st);
-			break;
-		    }
-		    if (tint == 32) {
-			TransistorModel.undumpModel(st);
-			break;
-		    }
-		    if (tint == 38) {
-			Adjustable adj = new Adjustable(st, this);
-			adjustables.add(adj);
-			break;
-		    }
-		    if (tint == '.') {
-			CustomCompositeModel.undumpModel(st);
-			break;
-		    }
-		    int x1 = new Integer(st.nextToken()).intValue();
-		    int y1 = new Integer(st.nextToken()).intValue();
-		    int x2 = new Integer(st.nextToken()).intValue();
-		    int y2 = new Integer(st.nextToken()).intValue();
-		    int f  = new Integer(st.nextToken()).intValue();
-		    
-		    CircuitElm newce = createCe(tint, x1, y1, x2, y2, f, st);
-		    if (newce==null) {
-				System.out.println("unrecognized dump type: " + type);
+		boolean subs = (flags & RC_SUBCIRCUITS) != 0;
+		//cv.repaint();
+		int p;
+		for (p = 0; p < len; ) {
+			int l;
+			int linelen = len-p; // IES - changed to allow the last line to not end with a delim.
+
+			for (l = 0; l != len-p; l++) {
+				if (b[l+p] == '\n' || b[l+p] == '\r') {
+					linelen = l++;
+					if (l+p < b.length && b[l+p] == '\n')
+						l++;
+					break;
+				}
+			}
+
+			String line = new String(b, p, linelen);
+			StringTokenizer st = new StringTokenizer(line, " +\t\n\r\f");
+			while (st.hasMoreTokens()) {
+			String type = st.nextToken();
+			int tint = type.charAt(0);
+			try {
+				if (subs && tint != '.')
+					continue;
+					if (tint == 'o') {
+					Scope sc = new Scope(this);
+					sc.position = scopeCount;
+					sc.undump(st);
+					scopes[scopeCount++] = sc;
+					break;
+				}
+				if (tint == 'h') {
+					readHint(st);
+					break;
+				}
+				if (tint == '$') {
+					readOptions(st);
+					break;
+				}
+				if (tint == '!') {
+					CustomLogicModel.undumpModel(st);
+					break;
+				}
+				if (tint == '%' || tint == '?' || tint == 'B') {
+					// ignore afilter-specific stuff
+					break;
+				}
+				// do not add new symbols here without testing export as link
+				
+				// if first character is a digit then parse the type as a number
+				if (tint >= '0' && tint <= '9') {
+					tint = new Integer(type).intValue();
+				}
+
+				if (tint == 34) {
+					DiodeModel.undumpModel(st);
+					break;
+				}
+				if (tint == 32) {
+					TransistorModel.undumpModel(st);
+					break;
+				}
+				if (tint == 38) {
+					Adjustable adj = new Adjustable(st, this);
+					adjustables.add(adj);
+					break;
+				}
+				if (tint == '.') {
+					CustomCompositeModel.undumpModel(st);
+					break;
+				}
+
+				// not special element, treat as Circuit element now
+				int x1 = new Integer(st.nextToken()).intValue();
+				int y1 = new Integer(st.nextToken()).intValue();
+				int x2 = new Integer(st.nextToken()).intValue();
+				int y2 = new Integer(st.nextToken()).intValue();
+				int f  = new Integer(st.nextToken()).intValue();
+				
+				CircuitElm newce = createCe(tint, x1, y1, x2, y2, f, st);
+				if (newce==null) {
+					System.out.println("unrecognized dump type: " + type);
+					break;
+				}
+				newce.setPoints();
+				elmList.addElement(newce);
+
+			} catch (Exception ee) {
+				ee.printStackTrace();
+				console("exception while undumping " + ee);
 				break;
-			    }
-		    newce.setPoints();
-		    elmList.addElement(newce);
-		} catch (Exception ee) {
-		    ee.printStackTrace();
-		    console("exception while undumping " + ee);
-		    break;
+			}
+			break;
+			}
+			p += l;
+			
 		}
-		break;
-	    }
-	    p += l;
-	    
-	}
-	setPowerBarEnable();
-	enableItems();
-	if ((flags & RC_RETAIN) == 0) {
-	    // create sliders as needed
-	    for (i = 0; i != adjustables.size(); i++)
-		adjustables.get(i).createSlider(this);
-	}
-//	if (!retain)
-	//    handleResize(); // for scopes
-	needAnalyze();
-	if ((flags & RC_NO_CENTER) == 0)
-		centreCircuit();
-	if ((flags & RC_SUBCIRCUITS) != 0)
-	    updateModels();
-	
-	AudioInputElm.clearCache();  // to save memory
+		setPowerBarEnable();
+		enableItems();
+		if ((flags & RC_RETAIN) == 0) {
+			// create sliders as needed
+			for (i = 0; i != adjustables.size(); i++)
+			adjustables.get(i).createSlider(this);
+		}
+	//	if (!retain)
+		//    handleResize(); // for scopes
+		needAnalyze();
+		if ((flags & RC_NO_CENTER) == 0)
+			centreCircuit();
+		if ((flags & RC_SUBCIRCUITS) != 0)
+			updateModels();
+		
+		AudioInputElm.clearCache();  // to save memory
     }
 
     // delete sliders for an element

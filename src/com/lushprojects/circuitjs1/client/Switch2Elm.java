@@ -46,7 +46,9 @@ package com.lushprojects.circuitjs1.client;
 	    } catch (Exception e) { }
 	    noDiagonal = true;
 	}
+	
 	int getDumpType() { return 'S'; }
+	
 	String dump() {
 	    return super.dump() + " " + link + " " + throwCount;
 	}
